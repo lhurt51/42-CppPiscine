@@ -1,70 +1,56 @@
 #include "main.hpp"
 #include "phonebook.class.hpp"
+#include "contact.class.hpp"
 
-Phonebook::Phonebook( char p1, int p2, float p3, float f ) : a1(p1), a2(p2), a3(p3), pi(f), pd(42) {
-	std::cout << "Constructor called" << std::endl;
+int		Phonebook::_nbInst = 0;
+
+Phonebook::Phonebook( void ) : maxContacts(8) {
 	Phonebook::_nbInst++;
-
-	this->publicFoo = 0;
-	std::cout << "this->publicFoo: " << this->publicFoo << std::endl;
-	this->_privateFoo = 0;
-	std::cout << "this->_privateFoo: " << this->_privateFoo << std::endl;
-
-	this->publicBar();
-	this->_privateBar();
-
+	this->_contactCount = 0;
 	return;
 }
 
 Phonebook::~Phonebook( void ) {
-	std::cout << "Destructor called" << std::endl;
 	Phonebook::_nbInst--;
 	return;
-}
-
-void	Phonebook::bar(void) const {
-	std::cout << "Member function bar called" << std::endl;
-	std::cout << "this->foo: " << this->foo << std::endl;
-	std::cout << "this->a1: " << this->a1 << std::endl;
-	std::cout << "this->a2: " << this->a2 << std::endl;
-	std::cout << "this->a3: " << this->a3 << std::endl;
-	std::cout << "this->pi: " << this->pi << std::endl;
-	std::cout << "this->pd: " << this->pd << std::endl;
-
-	return;
-}
-
-void	Phonebook::publicBar(void) const {
-	std::cout << "Member function publicBar called" << std::endl;
-	return;
-}
-
-void	Phonebook::_privateBar(void) const {
-	std::cout << "Member function _privateBar called" << std::endl;
-	return;
-}
-
-int		Phonebook::getPrivateFoo(void) const {
-	return this->_privateFoo;
-}
-
-void	Phonebook::setPrivateFoo(int val) {
-	if (val >= 0)
-		this->_privateFoo = val;
-	return;
-}
-
-int		Phonebook::compare(Phonebook * other) const {
-	if (this->_privateFoo < other->getPrivateFoo())
-		return -1;
-	else if (this->_privateFoo > other->getPrivateFoo())
-		return 1;
-	else
-		return 0;
 }
 
 int		Phonebook::getNbInst(void) {
 	return Phonebook::_nbInst;
 }
 
-int		Phonebook::_nbInst = 0;
+void	Phonebook::getContact( int index ) const {
+	if (index >= 0 && index < this->maxContacts && index < this->_contactCount)
+		this->_contacts[index].showContact();
+	else
+		std::cout << "Error: no contact with index - " << index << std::endl;
+}
+
+void	Phonebook::getAllContacts( void ) const {
+	std::string	tmp;
+	std::string::size_type sz;
+
+	if (this->_contactCount == 0)
+		std::cout << "Error: no contacts in the phonebook" << std::endl;
+	for (int i = 0; i < this->_contactCount; i++) {
+		this->_contacts[i].showContacts();
+	}
+	std::cout << "Enter the index of the person you want to search: ";
+	while (std::getline(std::cin, tmp)) {
+		if (tmp.compare("") == 0) {
+			std::cout << "Please enter some input" << std::endl;
+			std::cout << std::cout << "Enter the index of the person you want to search: ";
+		} else
+			break;
+	}
+	this->getContact(std::stoi(tmp, &sz) - 1);
+}
+
+void 	Phonebook::addContact( void ) {
+	if (this->_contactCount < 8) {
+		this->_contacts[this->_contactCount].startFilling();
+		this->_contactCount++;
+	}
+	else
+		std::cout << "Error: no more room for contacts" << std::endl;
+}

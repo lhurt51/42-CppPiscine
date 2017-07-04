@@ -1,34 +1,27 @@
 #ifndef PHONEBOOK_CLASS_HPP
 # define PHONEBOOK_CLASS_HPP
 
+# include "contact.class.hpp"
+
 class Phonebook {
 
 public:
 
-	int			foo;
-	int			publicFoo;
-	char		a1;
-	int			a2;
-	float		a3;
-	float const pi;
-	int			pd;
+	const int	maxContacts;
 
-	Phonebook( char p1, int p2, float p3 , float const f );
+	Phonebook( void );
 	~Phonebook( void );
 
-	void		bar( void ) const;
-	void		publicBar( void ) const;
-	int			getPrivateFoo( void ) const;
-	void		setPrivateFoo( int val );
-	int			compare( Phonebook * other ) const;
 	static int	getNbInst( void );
+	void		getContact( int index ) const;
+	void		getAllContacts( void ) const;
+	void 		addContact( void );
 
 private:
 
-	int			_privateFoo;
+	int			_contactCount;
 	static int	_nbInst;
-
-	void		_privateBar( void ) const;
+	Contact		_contacts[8];
 
 };
 

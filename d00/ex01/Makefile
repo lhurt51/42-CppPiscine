@@ -6,6 +6,7 @@ NAME =	phonebook
 
 SRCS =	main.cpp \
 		phonebook.class.cpp \
+		contact.class.cpp \
 
 FDIR =	frame/
 
