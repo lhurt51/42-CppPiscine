@@ -122,11 +122,11 @@ void	Account::displayStatus( void ) const {
 
 void	Account::_displayTimestamp( void ) {
 	time_t		timer;
-	char		buffer[26];
+	char		buffer[19];
 	struct tm*	tm_info;
 
 	time(&timer);
 	tm_info = localtime(&timer);
-	std::strftime(buffer, 26, "[%Y%m%d_%H%M%S] ", tm_info);
+	std::strftime(buffer, 19, "[%Y%m%d_%H%M%S] ", tm_info);
 	std::cout << buffer;
 }
