@@ -18,7 +18,8 @@ Zombie::~Zombie(void) {
 }
 
 void		Zombie::anounce(void) const {
-	std::cout << "<name: " << this->getName() << " (type: " << this->getInstType() << ")> Braiiiiiiinnnssss..." << std::endl;
+	std::cout << "<name: " << this->getName() << " (type: "
+		<< this->getInstType() << ")> Braiiiiiiinnnssss..." << std::endl;
 }
 
 std::string	Zombie::getName(void) const {
