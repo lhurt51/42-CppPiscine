@@ -23,4 +23,5 @@ int main() {
 	randomNum = rand() % 10;
 	for (int i = 0; i < randomNum; i++)
 		cool.randomChump();
+	return 0;
 }

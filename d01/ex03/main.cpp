@@ -5,4 +5,5 @@
 int main() {
 	ZombieHorde lotsOfZombies = ZombieHorde(15);
 	lotsOfZombies.announce();
+	return 0;
 }
