@@ -11,7 +11,7 @@ Fixed::Fixed(void) : _val(0) {
 
 Fixed::Fixed(int const val) {
 	std::cout << "Int constructor called" << std::endl;
-	this->_val = val * (1 << this->_fractBits);
+	this->_val = val << this->_fractBits;
 	return;
 }
 
@@ -40,7 +40,6 @@ Fixed			&Fixed::operator=(Fixed const &rhs) {
 }
 
 int				Fixed::getRawBits(void) const {
-	std::cout << "getRawBits member function called" << std::endl;
 	return this->_val;
 }
 
@@ -50,30 +49,14 @@ void			Fixed::setRawBits(int const raw) {
 }
 
 float			Fixed::toFloat(void) const {
-	return std::roundf(this->_val * (1 / (1 << this->_fractBits)));
+	return this->_val * (1.0f / (1 << this->_fractBits));
 }
 
 int				Fixed::toInt(void) const {
-	return this->_val * (1 / (1 << this->_fractBits));
+	return this->_val >> this->_fractBits;
 }
 
 std::ostream	&operator<<(std::ostream &o, Fixed const &i) {
-	return o << i.getRawBits();
-}
-
-int main( void ) {
-	Fixed a;
-	Fixed const b( 10 );
-	Fixed const c( 42.42f );
-	Fixed const d( b );
-	a = Fixed( 1234.4321f );
-	std::cout << "a is " << a << std::endl;
-	std::cout << "b is " << b << std::endl;
-	std::cout << "c is " << c << std::endl;
-	std::cout << "d is " << d << std::endl;
-	std::cout << "a is " << a.toInt() << " as integer" << std::endl;
-	std::cout << "b is " << b.toInt() << " as integer" << std::endl;
-	std::cout << "c is " << c.toInt() << " as integer" << std::endl;
-	std::cout << "d is " << d.toInt() << " as integer" << std::endl;
-	return 0;
+	o << i.toFloat();
+	return o;
 }
