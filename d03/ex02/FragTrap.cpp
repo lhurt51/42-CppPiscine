@@ -1,20 +1,15 @@
 #include <iostream>
 #include <string>
+#include "ClapTrap.hpp"
 #include "FragTrap.hpp"
 
-int const	FragTrap::_maxHp = 100;
-int const	FragTrap::_maxEp = 100;
-int const	FragTrap::_meleeDamage = 30;
-int const	FragTrap::_rangedDamage = 20;
-int const	FragTrap::_armor = 5;
-
-FragTrap::FragTrap(std::string name) : _name(name), _hp(FragTrap::_maxHp), _ep(FragTrap::_maxEp), _level(1) {
+FragTrap::FragTrap(std::string name) : ClapTrap(name, 100, 100, 30, 20, 5) {
 	std::cout << this->_name << ": Badasses incoming! Annnnndddddd ... OPEN!"
 		<< std::endl;
 	return;
 }
 
-FragTrap::FragTrap(FragTrap const &src) {
+FragTrap::FragTrap(FragTrap const &src) : ClapTrap(src) {
 	*this = src;
 	return;
 }
@@ -34,43 +29,6 @@ FragTrap	&FragTrap::operator=(FragTrap const &rhs) {
 		this->_level = rhs.getLevel();
 	}
 	return *this;
-}
-
-std::string	FragTrap::getName(void) const {
-	return this->_name;
-}
-
-int			FragTrap::getHp(void) const {
-	return this->_hp;
-}
-
-int			FragTrap::getEp(void) const {
-	return this->_ep;
-}
-
-int			FragTrap::getLevel(void) const {
-	return this->_level;
-}
-
-void		FragTrap::takeDamage(unsigned int amount) {
-	unsigned int	total;
-
-	total = (amount > FragTrap::_armor) ? (amount - FragTrap::_armor) : 0;
-	this->_hp = (this->_hp - total > FragTrap::_maxHp) ? 0 : (this->_hp -= total);
-	std::cout << "FR4G-TP " << this->_name << " takes " << total
-		<< " points of damage... his curent hp = " << this->_hp << std::endl;
-	std::cout << this->_name
-		<< ": Ouch! Crap on a cracker!"
-		<< std::endl;
-}
-
-void		FragTrap::beRepaired(unsigned int amount) {
-	this->_hp = (this->_hp + amount > FragTrap::_maxHp) ? FragTrap::_maxHp : this->_hp += amount;
-	std::cout << "FR4G-TP " << this->_name << " gets repaired " << amount
-		<< " points of hp... his curent hp = " << this->_hp << std::endl;
-	std::cout << this->_name
-		<< ": LET'S TEAR THIS PLANET A NEW ASSHOLE! YAAAAAAGHHHHH!"
-		<< std::endl;
 }
 
 void		FragTrap::vaulthunter_dot_exe(std::string const &target) {
