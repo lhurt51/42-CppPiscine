@@ -55,5 +55,6 @@ bool	Actor::bDoesCollide(Actor &src) const {
 }
 
 void	Actor::tick(void) {
-	
+	// clear the sprite from the screen
+	// check for collision and map edges and delete
 }

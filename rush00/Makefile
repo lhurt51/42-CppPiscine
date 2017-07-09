@@ -1,31 +1,41 @@
 CC =	clang++
 
-FLAG =	-Wall -Wextra -Werror
-
-LNC =	-lncurses
+FLAG =	-g -Wall -Wextra -Werror -std=c++98 -I ./headers
 
 NAME =	ft_retro
 
-SRCS =	main.cpp \
-		Game.class.cpp \
-		Actor.class.cpp \
-		Vector.class.cpp \
+LNC =	-lncurses
 
-FDIR =	frame/
+SDIR =	src
 
-OBJS =	$(addprefix $(FDIR), $(SRCS:.cpp=.o))
+SRCS =	$(addprefix $(SDIR)/, \
+			main.cpp \
+			Game.class.cpp \
+			Actor.class.cpp \
+			Vector.class.cpp \
+		)
+
+FDIR =	frame
+
+TEMP =	$(SRCS:.cpp=.o)
+
+OBJS =	$(subst $(SDIR),$(FDIR),$(TEMP))
 
 all: 	$(NAME)
+
+echo:
+		@echo $(OBJS)
+		@echo $(SRCS)
 
 frame:
 		@mkdir $(FDIR)
 		@echo "$(FDIR): has been created"
 
 $(NAME): $(OBJS)
-		@$(CC) $(FLAG) $(LNC) $(OBJS) -o $(NAME)
+		@$(CC) $(FLAG) $(LNC) $^ -o $@
 		@echo "$(NAME): has been created"
 
-frame/%.o: %.cpp | frame
+$(FDIR)/%.o: $(SDIR)/%.cpp | frame
 		@$(CC) $(FLAG) -c $< -o $@
 
 clean:

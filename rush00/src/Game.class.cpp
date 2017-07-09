@@ -6,6 +6,9 @@
 #include "Actor.class.hpp"
 #include "Game.class.hpp"
 
+int		Game::_maxWinX = 500;
+int		Game::_maxWinY = 500;
+
 Game::Game(void) : _window(initscr()) {
 	cbreak();
 	noecho();
@@ -39,8 +42,6 @@ Game::~Game(void) {
 Game	&Game::operator=(Game const &rhs) {
 	if (this != &rhs) {
 		this->_window = rhs.getWindow();
-		this->_maxX = rhs.getMaxX();
-		this->_maxY = rhs.getMaxY();
 	}
 	return *this;
 }
@@ -92,10 +93,10 @@ WINDOW*	Game::getWindow(void) const {
 	return this->_window;
 }
 
-int		Game::getMaxX(void) const {
-	return this->_maxX;
+int		Game::getWinMaxX(void) {
+	return Game::_maxWinX;
 }
 
-int		Game::getMaxY(void) const {
-	return this->_maxY;
+int		Game::getWinMaxY(void) {
+	return Game::_maxWinY;
 }
