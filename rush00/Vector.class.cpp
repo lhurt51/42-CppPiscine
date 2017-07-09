@@ -5,7 +5,7 @@ Vector::Vector(void) : _x(0), _y(0) {
 	return;
 }
 
-Vector::Vector(unint16_t x, unint16_t y) : _x(x), _y(y) {
+Vector::Vector(int x, int y) : _x(x), _y(y) {
 	return;
 }
 
@@ -58,11 +58,11 @@ int		Vector::getY(void) const {
 	return this->_y;
 }
 
-void	Vector::setX(unint16_t x) {
+void	Vector::setX(int x) {
 	this->_x = x;
 }
 
-void	Vector::setY(unint16_t y) {
+void	Vector::setY(int y) {
 	this->_y = y;
 }
 
