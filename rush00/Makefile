@@ -8,6 +8,7 @@ NAME =	ft_retro
 
 SRCS =	main.cpp \
 		Game.class.cpp \
+		Actor.class.cpp \
 		Vector.class.cpp \
 
 FDIR =	frame/

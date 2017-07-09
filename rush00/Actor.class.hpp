@@ -7,7 +7,7 @@ class Actor {
 
 public:
 
-	Actor(void);
+	Actor(Vector pos, Vector const size, char const sprite);
 	Actor(Actor const &src);
 	~Actor(void);
 
@@ -16,10 +16,10 @@ public:
 	Vector	getPos(void) const;
 	Vector	getSize(void) const;
 	bool	getCollision(void) const;
-	char const getSprite(void) const;
-	void	setPos(Vector &pos);
-	void	move(Vector &pos);
-	bool	bDoesCollide(Actor *src) const;
+	char	getSprite(void) const;
+	void	setPos(Vector pos);
+	void	move(Vector pos);
+	bool	bDoesCollide(Actor &src) const;
 	virtual void	tick(void);
 
 
@@ -27,8 +27,8 @@ private:
 
 	Vector			_pos;
 	Vector const	_size;
-	char const		**sprite;
-	bool			_collide;
+	char const		_sprite;
+	bool			_bCollide;
 
 };
 

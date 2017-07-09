@@ -2,6 +2,8 @@
 #include <string>
 #include <ncurses.h>
 #include <unistd.h>
+#include "Vector.class.hpp"
+#include "Actor.class.hpp"
 #include "Game.class.hpp"
 
 Game::Game(void) : _window(initscr()) {
@@ -21,8 +23,6 @@ Game::Game(void) : _window(initscr()) {
 	attron(A_BOLD);
     box(this->_window, 0, 0);
     attroff(A_BOLD);
-	init_pair(1, COLOR_BLACK, COLOR_CYAN);
-    wbkgd(this->_window, COLOR_PAIR(1));
 	return;
 }
 
@@ -46,20 +46,45 @@ Game	&Game::operator=(Game const &rhs) {
 }
 
 void	Game::run(void) {
-	static size_t i = 0;
-
-	move(5, 5);
-    std::string text = "Hello world!";
+	Actor	player(Vector(10, 5), Vector(1, 1), '0');
+	int		inChar;
+	bool 	exit_requested = false;
 
     while(1) {
-		getmaxyx(stdscr, this->_maxY, this->_maxX);
-		if (i < text.size()) {
-			addch(text[i++]);
-			addch(' ');
-		}
+        inChar = wgetch(this->_window);
 
-		sleep(1);
-	    refresh();
+		mvaddch(player.getPos().getY(), player.getPos().getX(), ' ');
+
+        switch(inChar) {
+            case 'q':
+                exit_requested = true;
+                break;
+            case KEY_UP:
+            case 'w':
+                player.move(Vector(0, -1));
+                break;
+            case KEY_DOWN:
+            case 's':
+                player.move(Vector(0, 1));
+                break;
+            case KEY_LEFT:
+            case 'a':
+                player.move(Vector(-1, 0));
+                break;
+            case KEY_RIGHT:
+            case 'd':
+                player.move(Vector(1, 0));
+                break;
+            default:
+                break;
+        }
+
+		mvaddch(player.getPos().getY(), player.getPos().getX(), player.getSprite());
+        refresh();
+
+        if(exit_requested) break;
+
+		usleep(10000);
 	}
 }
 
