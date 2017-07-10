@@ -1,13 +1,17 @@
 #include <iostream>
 #include <string>
 #include <ncurses.h>
-#include <unistd.h>
 #include "Vector.class.hpp"
 #include "Actor.class.hpp"
+#include "Character.class.hpp"
+#include "Enemy.class.hpp"
+#include "Projectile.class.hpp"
 #include "Game.class.hpp"
+#include "Spawn.class.hpp"
+#include <typedefs.hpp>
 
-int		Game::_maxWinX = 500;
-int		Game::_maxWinY = 500;
+int		Game::_maxWinX = 100;
+int		Game::_maxWinY = 50;
 
 Game::Game(void) : _window(initscr()) {
 	cbreak();
@@ -23,9 +27,11 @@ Game::Game(void) : _window(initscr()) {
 		return;
     }
 	start_color();
-	attron(A_BOLD);
-    box(this->_window, 0, 0);
-    attroff(A_BOLD);
+	for (int i = 0; i < Game::getWinMaxX() + 1; i++)
+		mvaddch(Game::getWinMaxY() + 2, i, '-');
+	for (int i = 0; i < Game::getWinMaxY() + 2; i++)
+		mvaddch(i, Game::getWinMaxX() + 1, '|');
+	refresh();
 	return;
 }
 
@@ -47,45 +53,58 @@ Game	&Game::operator=(Game const &rhs) {
 }
 
 void	Game::run(void) {
-	Actor	player(Vector(10, 5), Vector(1, 1), '0');
-	int		inChar;
-	bool 	exit_requested = false;
+	Character	player(this->_window);
+	//0 is player, 1 - 11 are enemies
+	Actor		*actors[1 + ENEMY_COUNT + BULLET_COUNT];
+	Spawn		spawn;
 
-    while(1) {
-        inChar = wgetch(this->_window);
-
-		mvaddch(player.getPos().getY(), player.getPos().getX(), ' ');
-
-        switch(inChar) {
-            case 'q':
-                exit_requested = true;
-                break;
-            case KEY_UP:
-            case 'w':
-                player.move(Vector(0, -1));
-                break;
-            case KEY_DOWN:
-            case 's':
-                player.move(Vector(0, 1));
-                break;
-            case KEY_LEFT:
-            case 'a':
-                player.move(Vector(-1, 0));
-                break;
-            case KEY_RIGHT:
-            case 'd':
-                player.move(Vector(1, 0));
-                break;
-            default:
-                break;
-        }
-
-		mvaddch(player.getPos().getY(), player.getPos().getX(), player.getSprite());
+	for (unsigned int i = 0; i < sizeof(actors) / sizeof(*actors); i++)
+		actors[i] = NULL;
+	actors[0] = &player;
+    while (1) {
+		//spawn enemies
+		for (int i = ENEMY_OFFSET; i < ENEMY_COUNT + ENEMY_OFFSET; i++)
+		{
+			if (actors[i] == NULL)
+			{
+				actors[i] = spawn.createEnemy();
+				break ;
+			}
+		}
+		//try to add a bullet from the player
+		for (unsigned int i = BULLET_OFFSET; i < BULLET_COUNT + BULLET_OFFSET; i++)
+		{
+			if (actors[i] == NULL) {
+				actors[i] = player.fire();
+				break;
+			}
+		}
+		for (unsigned int i = 0; i < sizeof(actors) / sizeof(*actors); i++)
+		{
+			if (actors[i])
+				actors[i]->tick();
+		}
+		//check for collision
+		for (unsigned int i = 0; i < sizeof(actors) / sizeof(*actors); i++)
+		{
+			for (unsigned int j = i; j < sizeof(actors) / sizeof(*actors); j++)
+			{
+				if (actors[i] && actors[j] && i != j)
+					actors[i]->bDoesCollide(*actors[j]);
+			}
+		}
+		//delete actors
+		for (unsigned int i = 0; i < sizeof(actors) / sizeof(*actors); i++)
+		{
+			if (actors[i] && actors[i]->getCollision())
+			{
+				delete actors[i];
+				actors[i] = NULL;
+			}
+		}
         refresh();
 
-        if(exit_requested) break;
-
-		usleep(10000);
+        if(player.getExitRequest()) break;
 	}
 }
 

@@ -5,7 +5,7 @@ Vector::Vector(void) : _x(0), _y(0) {
 	return;
 }
 
-Vector::Vector(int x, int y) : _x(x), _y(y) {
+Vector::Vector(uint16_t x, uint16_t y) : _x(x), _y(y) {
 	return;
 }
 
@@ -50,19 +50,19 @@ bool	Vector::operator!=(Vector const &rhs) const {
 	return !(this->_x == rhs.getX() && this->_y == rhs.getY());
 }
 
-int		Vector::getX(void) const {
+uint16_t		Vector::getX(void) const {
 	return this->_x;
 }
 
-int		Vector::getY(void) const {
+uint16_t		Vector::getY(void) const {
 	return this->_y;
 }
 
-void	Vector::setX(int x) {
+void	Vector::setX(uint16_t x) {
 	this->_x = x;
 }
 
-void	Vector::setY(int y) {
+void	Vector::setY(uint16_t y) {
 	this->_y = y;
 }
 

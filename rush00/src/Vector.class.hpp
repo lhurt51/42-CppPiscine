@@ -8,7 +8,7 @@ class Vector {
 public:
 
 	Vector(void);
-	Vector(int x, int y);
+	Vector(uint16_t x, uint16_t y);
 	Vector(Vector const &src);
 	~Vector(void);
 
@@ -20,10 +20,10 @@ public:
 	bool	operator==(Vector const &rhs) const;
 	bool	operator!=(Vector const &rhs) const;
 
-	int		getX(void) const;
-	int		getY(void) const;
-	void	setX(int x);
-	void	setY(int y);
+	uint16_t		getX(void) const;
+	uint16_t		getY(void) const;
+	void			setX(uint16_t x);
+	void			setY(uint16_t y);
 
 private:
 

@@ -2,33 +2,39 @@
 # define ACTOR_CLASS_HPP
 
 # include <iostream>
+# include "Vector.class.hpp"
 
 class Actor {
 
 public:
 
-	Actor(Vector pos, Vector const size, char const sprite);
+
+	Actor(Vector pos, Vector const size, std::string const *sprite);
 	Actor(Actor const &src);
-	~Actor(void);
+	virtual ~Actor(void);
 
 	Actor	&operator=(Actor const &rhs);
 
 	Vector	getPos(void) const;
 	Vector	getSize(void) const;
 	bool	getCollision(void) const;
-	char	getSprite(void) const;
+	std::string const *getSprite(void) const;
 	void	setPos(Vector pos);
 	void	move(Vector pos);
-	bool	bDoesCollide(Actor &src) const;
-	virtual void	tick(void);
+	bool	bDoesCollide(Actor &src);
+	void	draw(void);
+	void	clear(void);
+	virtual void	tick(void) = 0;
 
 
-private:
+protected:
 
 	Vector			_pos;
 	Vector const	_size;
-	char const		_sprite;
+	std::string const *_sprite;
 	bool			_bCollide;
+
+	virtual void	_hasCollided(void);
 
 };
 

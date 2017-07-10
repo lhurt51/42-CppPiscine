@@ -12,7 +12,11 @@ SRCS =	$(addprefix $(SDIR)/, \
 			main.cpp \
 			Game.class.cpp \
 			Actor.class.cpp \
+			Character.class.cpp \
+			Projectile.class.cpp \
+			Enemy.class.cpp \
 			Vector.class.cpp \
+			Spawn.class.cpp \
 		)
 
 FDIR =	frame

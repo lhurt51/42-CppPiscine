@@ -2,6 +2,7 @@
 # define GAME_CLASS_HPP
 
 # include <iostream>
+# include <ncurses.h>
 
 class Game {
 
