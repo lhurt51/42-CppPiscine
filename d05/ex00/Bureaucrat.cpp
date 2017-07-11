@@ -74,6 +74,14 @@ void			Bureaucrat::decrementGrade(void) {
 	++(*this);
 }
 
+const char *Bureaucrat::GradeTooHighException::what() const throw() {
+	return "Bureaucrat must be instanciated with a value less than 150";
+}
+
+const char *Bureaucrat::GradeTooLowException::what() const throw() {
+	return "Bureaucrat must be instanciated with a value greater than 1";
+}
+
 std::ostream	&operator<<(std::ostream &o, Bureaucrat const &i) {
 	o << i.getName() << " -> Grade: " << i.getGrade();
 	return o;

@@ -26,16 +26,12 @@ public:
 
 	class			GradeTooHighException : public std::exception {
 	public:
-		virtual const char *what() const throw() {
-			return "Bureaucrat must be instanciated with a value less than 150";
-		}
+		virtual const char *what() const throw();
 	};
 
 	class			GradeTooLowException : public std::exception {
 	public:
-		virtual const char *what() const throw() {
-			return "Bureaucrat must be instanciated with a value greater than 1";
-		}
+		virtual const char *what() const throw();
 	};
 
 private:
