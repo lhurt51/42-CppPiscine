@@ -21,9 +21,11 @@ int main() {
 			myCrat->decrementGrade();
 			myCrat->decrementGrade();
 			std::cout << *myCrat << std::endl;
+			delete myCrat;
 		}
 		if (Bureaucrat *myCrat1 = new Bureaucrat("Tim", 0)) {
 			std::cout << *myCrat1 << std::endl;
+			delete myCrat1;
 		}
 	}
 	catch(Bureaucrat::GradeTooHighException& e) {
@@ -35,6 +37,7 @@ int main() {
 	try {
 		if (Bureaucrat *myCrat2 = new Bureaucrat("Tom", 151)) {
 			std::cout << *myCrat2 << std::endl;
+			delete myCrat2;
 		}
 	}
 	catch(Bureaucrat::GradeTooHighException& e) {
