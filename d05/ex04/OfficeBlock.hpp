@@ -21,8 +21,22 @@ public:
 	void			setIntern(Intern &in);
 	void			setSigner(Bureaucrat &signer);
 	void			setExecutor(Bureaucrat &executor);
-
 	void			doBureaucracy(std::string action, std::string target);
+
+	class			InternNotAssigned : public std::exception {
+	public:
+		virtual const char *what() const throw();
+	};
+
+	class			SignerNotAssigned : public std::exception {
+	public:
+		virtual const char *what() const throw();
+	};
+
+	class			ExecutorNotAssigned : public std::exception {
+	public:
+		virtual const char *what() const throw();
+	};
 
 private:
 

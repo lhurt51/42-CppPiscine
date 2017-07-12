@@ -43,35 +43,22 @@ bool				Form::getBSigned(void) const {
 }
 
 void 				Form::beSigned(Bureaucrat const &src) {
-	try {
-		if (src.getGrade() > this->_reqGrade)
-			throw Form::GradeTooLowException();
-		else {
-			this->_bSigned = true;
-			std::cout << "Bureaucrat -> " << src.getName() << " signs Form -> " << this->_name << std::endl;
-		}
-	}
-	catch (Form::GradeTooLowException& e) {
-		std::cerr << "Bureaucrat -> " << src.getName() << " cannot sign Form -> " << this->_name << " because " << e.what() << ": " << this->_reqGrade << std::endl;
+	if (src.getGrade() > this->_reqGrade)
+		throw Form::SignTooLowException();
+	else {
+		this->_bSigned = true;
+		std::cout << "Bureaucrat -> " << src.getName() << " signs Form -> " << this->_name << std::endl;
 	}
 }
 
 void				Form::execute(Bureaucrat const &src) const {
-	try {
-		if (src.getGrade() > this->_reqExecut)
-			throw Form::GradeTooLowException();
-		else if (!this->_bSigned)
-			throw Form::FormNotSignedException();
-		else {
-			this->_doExecution();
-			std::cout << "Bureaucrat -> " << src.getName() << " exec Form -> " << this->_name << std::endl;
-		}
-	}
-	catch (Form::GradeTooLowException& e) {
-		std::cerr << "Bureaucrat -> " << src.getName() << " cannot exec Form -> " << this->_name << " because " << e.what() << ": " << this->_reqExecut << std::endl;
-	}
-	catch (Form::FormNotSignedException& e) {
-		std::cerr << "Bureaucrat -> " << src.getName() << " cannot exec Form -> " << this->_name << " because " << e.what() << std::endl;
+	if (src.getGrade() > this->_reqExecut)
+		throw Form::ExecTooLowException();
+	else if (!this->_bSigned)
+		throw Form::FormNotSignedException();
+	else {
+		this->_doExecution();
+		std::cout << "Bureaucrat -> " << src.getName() << " exec Form -> " << this->_name << std::endl;
 	}
 }
 
@@ -80,7 +67,15 @@ const char 			*Form::GradeTooHighException::what() const throw() {
 }
 
 const char 			*Form::GradeTooLowException::what() const throw() {
-	return "Form requires a greater grade limit";
+	return "Form requires a grade limit greater than 151";
+}
+
+const char 			*Form::SignTooLowException::what() const throw() {
+	return "Form requires a greater grade limit to sign";
+}
+
+const char 			*Form::ExecTooLowException::what() const throw() {
+	return "Form requires a greater grade limit to exec";
 }
 
 const char 			*Form::FormNotSignedException::what() const throw() {

@@ -22,25 +22,20 @@ Intern	&Intern::operator=(Intern const &rhs) {
 }
 
 Form	*Intern::makeForm(std::string type, std::string target) const {
-	try {
-		if (type.compare("shrubbery creation") == 0) {
-			ShrubberyCreationForm *form = new ShrubberyCreationForm(target);
-			std::cout << "Intern creates " << form->getName() << std::endl;
-			return form;
-		} else if (type.compare("robotomy request") == 0) {
-			RobotomyRequestForm *form = new RobotomyRequestForm(target);
-			std::cout << "Intern creates " << form->getName() << std::endl;
-			return form;
-		} else if (type.compare("presidential pardon") == 0) {
-			PresidentialPardonForm *form = new PresidentialPardonForm(target);
-			std::cout << "Intern creates " << form->getName() << std::endl;
-			return form;
-		} else {
-			throw Intern::FormTypeNotFound();
-		}
-	}
-	catch (Intern::FormTypeNotFound &e) {
-		std::cerr << e.what() << std::endl;
+	if (type.compare("shrubbery creation") == 0) {
+		ShrubberyCreationForm *form = new ShrubberyCreationForm(target);
+		std::cout << "Intern creates " << form->getName() << std::endl;
+		return form;
+	} else if (type.compare("robotomy request") == 0) {
+		RobotomyRequestForm *form = new RobotomyRequestForm(target);
+		std::cout << "Intern creates " << form->getName() << std::endl;
+		return form;
+	} else if (type.compare("presidential pardon") == 0) {
+		PresidentialPardonForm *form = new PresidentialPardonForm(target);
+		std::cout << "Intern creates " << form->getName() << std::endl;
+		return form;
+	} else {
+		throw Intern::FormTypeNotFound();
 		return NULL;
 	}
 }

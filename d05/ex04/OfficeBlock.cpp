@@ -14,12 +14,6 @@ OfficeBlock::OfficeBlock(OfficeBlock const &src) {
 }
 
 OfficeBlock::~OfficeBlock(void) {
-	if (this->_intern)
-		delete this->_intern;
-	if (this->_signer)
-		delete this->_signer;
-	if (this->_executor)
-		delete this->_executor;
 	return;
 }
 
@@ -56,6 +50,29 @@ void			OfficeBlock::setExecutor(Bureaucrat &executor) {
 	this->_executor = &executor;
 }
 
-void			doBureaucracy(std::string action, std::string target) {
-	
+void			OfficeBlock::doBureaucracy(std::string action, std::string target) {
+	Form *form;
+
+	if (!this->_intern)
+		throw OfficeBlock::InternNotAssigned();
+	form = this->_intern->makeForm(action, target);
+	if (!this->_signer)
+		throw OfficeBlock::SignerNotAssigned();
+	form->beSigned(*this->_signer);
+	if (!this->_executor)
+		throw OfficeBlock::ExecutorNotAssigned();
+	this->_executor->executeForm(*form);
+	delete form;
+}
+
+const char *OfficeBlock::InternNotAssigned::what() const throw() {
+	return "Intern not assigned cannot make form";
+}
+
+const char *OfficeBlock::SignerNotAssigned::what() const throw() {
+	return "Signer not assigned cannot sign form";
+}
+
+const char *OfficeBlock::ExecutorNotAssigned::what() const throw() {
+	return "Executor not assigned cannot exec form";
 }
